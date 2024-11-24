@@ -65,7 +65,7 @@ export default function Home() {
                 <input type="text" id="searchInput" placeholder="Search for a country" className="mr-4 bg-slate-900 hover:shadow-bxs transition-all text-purple-400 font-bold p-2 rounded-lg w-full " />
                 <button onClick={() => handleSearch('searchInput')} className="bg-purple-400 font-bold p-2 rounded-lg hover:scale-105 transition-all hover:shadow-bxs">Search</button>
                 </div>
-                <div className="lg:grid lg:grid-cols-2 mt-8">
+                <div className=" mt-8">
                     {countries.map((country, index) => (
                         <Card key={index} country={country} />
                     ))}
