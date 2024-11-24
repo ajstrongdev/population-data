@@ -20,7 +20,11 @@ function Card({ country }) {
                             return item.country === country.name;
                     }
                 });
-                setPopulationData(countryData); 
+                if (countryData.length === 0) {
+                    setPopulationData([{ city: 'No data to show', populationCounts: [{ value: '' }] }]);
+                } else {
+                    setPopulationData(countryData);
+                }
             })
             .catch((error) => {
                 console.error('Error fetching population data: ', error);
