@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import PopulationGraph from './PopulationGraph';
 
 function Card({ country }) {
     const [populationData, setPopulationData] = useState([]);
@@ -10,12 +11,14 @@ function Card({ country }) {
         axios.get('https://countriesnow.space/api/v0.1/countries/population/cities')
             .then((populationResponse) => {
                 const countryData = populationResponse.data.data.filter(item => {
-                    if (country.name === 'United Kingdom') { // Fix for UK and US as the API uses different names when getting city population data.
-                        return item.country === 'United Kingdom of Great Britain and Northern Ireland';
-                    } else if (country.name === 'United States') {
-                        return item.country === 'United States of America';
+                    switch (country.name) {
+                        case 'United Kingdom':
+                            return item.country === 'United Kingdom of Great Britain and Northern Ireland';
+                        case 'United States':
+                            return item.country === 'United States of America';
+                        default:
+                            return item.country === country.name;
                     }
-                    return item.country === country.name;
                 });
                 setPopulationData(countryData); 
             })
@@ -36,9 +39,10 @@ function Card({ country }) {
             <h1 className="text-lg font-bold text-purple-400">{country.name}</h1>
             {country.capital && <p>Capital: {country.capital}</p> /* Display capital if it exists. */}
         
-            <button onClick={handleButtonClick}>Get population data</button>
+            <button onClick={handleButtonClick} className="bg-purple-400 font-bold p-2 rounded-lg hover:scale-105 transition-all hover:shadow-bxs mt-4">Get population data</button>
             {populationData.length > 0 && (
                 <div className="mt-4">
+                    <PopulationGraph populationData={populationData} />
                     <h2 className="font-bold">Cities Population</h2>
                     <table className="table-auto w-full mt-4">
                         <thead className="border-solid border-2 border-purple-400 text-xl">
